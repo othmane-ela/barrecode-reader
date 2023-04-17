@@ -13,10 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $error = "All fields are required";
   } else {
     // Connect to database
-    $servername = "127.0.0.1:3306";
-    $username = "root";
-    $password = "ihackyourrepospace";
-    $dbname = "client_db";
+    $servername = "eu-cdbr-west-03.cleardb.net";
+    $username = "b302dece02d1a0";
+    $password = "90e0f565";
+    $dbname = "heroku_0428dd0542836b5";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
    
     <main class="container my-5">
         <section id="client-info row">
-            <form action="index.php" method="post">
+            <form action="index.php" method="post" id="client_data">
                 <div class="form-group row">
                     <label for="nom" class="col-sm-2 col-form-label col-form-label-sm">1 introduire nom</label>
                     <div class="col-sm-10">
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div id="save" class="col-md-12 ">
                     <div class="w-100">
-                        <input type="submit" value="Ajouter" class="save-btn btn btn-success text-white my-3 rounded">
+                        <input type="submit" value="Ajouter" id="post" class="save-btn btn btn-success text-white my-3 rounded">
                     </div>
             </div>
 
@@ -202,6 +202,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     console.error(err)
                 })
         })
+
+        document.getElementById("post").addEventListener("click", function() {
+        document.getElementById("client_data").submit();
+        });
     </script>
 
 </body>
