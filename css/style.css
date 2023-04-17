@@ -1,0 +1,38 @@
+body {
+    background-color: #123f92;
+    color: #fff;
+    font-style: italic;
+}
+
+input {
+    color: #123f92 !important;
+}
+
+input::placeholder {
+    color: #123f92 !important;
+}
+
+#video {
+    border-radius: 30px;
+    border: 2px solid #cf7612;
+}
+
+.form-control {
+    height: 45px !important;
+    border-radius: 8px !important;
+}
+
+@media (max-width: 480px) {
+    .col-form-label-sm {
+        text-align: center;
+    }
+    .reader {
+        width: 100% !important;
+    }
+    #save {
+        text-align: center !important;
+    }
+    .save-btn {
+        width: 50% !important;
+    }
+}
