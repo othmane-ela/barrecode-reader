@@ -8,9 +8,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $tel = $_POST['tel'];
   $code = $_POST['code'];
 
+  $oldNom = $nom;
+  $oldPrenom = $prenom;
+  $oldEmail = $email;
+  $oldTel = $tel;
+  $oldCode = $code;
+
   // Validate form data
   if (empty($nom) || empty($prenom) || empty($email) || empty($tel) || empty($code)) {
     $error = "All fields are required";
+    $oldNom = $nom;
+    $oldPrenom = $prenom;
+    $oldEmail = $email;
+    $oldTel = $tel;
+    $oldCode = $code;
   } else {
     // Connect to database
     $servername = "eu-cdbr-west-03.cleardb.net";
@@ -30,13 +41,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($conn->query($sql) === TRUE) {
       $success = "Client added successfully";
+      $oldNom = "";
+      $oldPrenom = "";
+      $oldEmail = "";
+      $oldTel = "";
+      $oldCode = "";
     } else {
-      $error = "Error: " . $sql . "<br>" . $conn->error;
+      $error = "Error: ". $conn->error;
     }
 
     // Close database connection
     $conn->close();
   }
+}
+else{
+    $oldNom = "";
+    $oldPrenom = "";
+    $oldEmail = "";
+    $oldTel = "";
+    $oldCode = "";
 }
 
 ?>
@@ -78,31 +101,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="form-group row">
                     <label for="nom" class="col-sm-2 col-form-label col-form-label-sm">1 introduire nom</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control form-control-sm w-75 mx-auto" id="nom" name="nom" placeholder="Nom" required>
+                        <input type="text" class="form-control form-control-sm w-75 mx-auto" id="nom" name="nom" value="<?php echo htmlspecialchars($oldNom); ?>" placeholder="Nom" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="prenom" class="col-sm-2 col-form-label col-form-label-sm">2 introduire prénom</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control form-control-sm w-75 mx-auto" id="prenom" name="prenom" placeholder="Prénom" required>
+                        <input type="text" class="form-control form-control-sm w-75 mx-auto" id="prenom" name="prenom" value="<?php echo htmlspecialchars($oldPrenom); ?>" placeholder="Prénom" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="tel" class="col-sm-2 col-form-label col-form-label-sm">3 introduire tel</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control form-control-sm w-75 mx-auto" id="prenom" name="tel" placeholder="Tel" required>
+                        <input type="text" class="form-control form-control-sm w-75 mx-auto" id="prenom" name="tel" value="<?php echo htmlspecialchars($oldTel); ?>" placeholder="Tel" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="email" class="col-sm-2 col-form-label col-form-label-sm">4 introduire email</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control form-control-sm w-75 mx-auto" id="email" name="email" placeholder="Email" required>
+                        <input type="email" class="form-control form-control-sm w-75 mx-auto" id="email" name="email" value="<?php echo htmlspecialchars($oldEmail); ?>" placeholder="Email" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="codeCarte" class="col-sm-2 col-form-label col-form-label-sm">6 scanner une carte de fidélité</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control form-control-sm w-75 mx-auto" id="result" name="code" placeholder="code barre" required>
+                        <input type="text" class="form-control form-control-sm w-75 mx-auto" id="result" name="code" value="<?php echo htmlspecialchars($oldCode); ?>" placeholder="code barre" required>
                     </div>
                 </div>
             </form>
@@ -118,15 +141,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div>
                         <video id="video" width="100%" height="40%"></video>
                     </div>
+                    <!-- MULTI DEVICES
                     <div id="sourceSelectPanel" style="display:none" class="my-2">
                         <label for="sourceSelect">Change video source:</label>
                         <select id="sourceSelect" class="custom-select">
                         </select>
                     </div>
-                    <div>
-                        <button id="startButton" class="btn btn-success">Start</button>
-                        <button id="resetButton" class="btn btn-warning">Reset</button>
+                     -->
+                    <div class="my-3 px-3">
+                        <button id="startButton" class="btn btn-success mx-2">Start</button>
+                        <button id="resetButton" class="btn btn-warning mx-2">Reset</button>
                     </div>
+                   
 
                 </div>
             </div>
@@ -152,7 +178,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             console.log('ZXing code reader initialized')
             codeReader.listVideoInputDevices()
                 .then((videoInputDevices) => {
+                    /* MULTI DEVICES
                     const sourceSelect = document.getElementById('sourceSelect')
+                    console.log(videoInputDevices);
                     selectedDeviceId = videoInputDevices[0].deviceId
                     if (videoInputDevices.length >= 1) {
                         videoInputDevices.forEach((element) => {
@@ -169,18 +197,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         const sourceSelectPanel = document.getElementById('sourceSelectPanel')
                         sourceSelectPanel.style.display = 'block'
                     }
+                    */
 
                     document.getElementById('startButton').addEventListener('click', () => {
-                        codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
+                        codeReader.decodeFromVideoDevice(undefined, 'video', (result, err) => {
                             if (result) {
                                 const validationSound = document.getElementById("validation-sound");
                                 validationSound.play();
                                 validationSound.addEventListener("ended", function() {
                                     this.currentTime = 0;
                                 });
-                                alert("Scanned : " + result)
-                                document.getElementById('result').value = "";
-                                document.getElementById('result').value = result.text
+                               
+                                
+                                 // Send an AJAX request to the server
+                                    const xhr = new XMLHttpRequest();
+                                    xhr.open("POST", "check-code.php", true);
+                                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                                    xhr.onreadystatechange = function() {
+                                        if (xhr.readyState === 4 && xhr.status === 200) {
+                                        // Parse the response from the server
+                                        const response = JSON.parse(xhr.responseText);
+
+                                        // Check if the code exists in the client table
+                                        if (response.exists) {
+                                            alert("Code exists in client table");
+                                        } else {
+                                            document.getElementById('result').value = "";
+                                            document.getElementById('result').value = result.text
+                                            alert("Scanned : " + result.text)
+                                        }
+                                        }
+                                    };
+                                    xhr.send("code=" + encodeURIComponent(result.text));
+
                                
                             }
                             if (err && !(err instanceof ZXing.NotFoundException)) {
@@ -188,7 +237,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 document.getElementById('result').textContent = err
                             }
                         })
-                        console.log(`Started continous decode from camera with id ${selectedDeviceId}`)
+                    //    console.log(`Started continous decode from camera with id ${selectedDeviceId}`)
+                        console.log("Started continous decode from camera")
+
                     })
 
                     document.getElementById('resetButton').addEventListener('click', () => {
