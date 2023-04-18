@@ -45,6 +45,7 @@ input::placeholder {
     background-color: #fff;
     color: #123f92;
     font-style: italic;
+    border-radius: 8px !important;
 }
 
 

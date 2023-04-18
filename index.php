@@ -200,12 +200,12 @@ else{
 
                                         // Check if the code exists in the client table
                                         if (response.exists) {
-                                            $('#barcodeModal .modal-body').text("Le code a déjà été attribué à un autre client.");
+                                            $('#barcodeModal .modal-body').html('<p class="text-danger">Le code a déjà été attribué à un autre client.</p>');
                                             $('#barcodeModal').modal('show');
                                         } else {
                                             document.getElementById('result').value = "";
                                             document.getElementById('result').value = result.text
-                                            $('#barcodeModal .modal-body').text("Sanned : "+result.text);
+                                            $('#barcodeModal .modal-body').html('<p>Sanned : '+result.text+"</p>");
                                             $('#barcodeModal').modal('show');
                                         }
                                         }
