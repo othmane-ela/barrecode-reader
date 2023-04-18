@@ -137,8 +137,8 @@ else{
                                 <video id="video" width="100%" height="40%" title="Barre code Scanner v1"></video>
                             </div>
                             <div class="my-3">
-                                <button id="startButton" class="btn btn-success mx-2 w-40">Start scanner</button>
-                                <button id="resetButton" class="btn btn-warning mx-2 w-40">Reset scanner</button>
+                                <button id="startButton" class="btn btn-success m-2 w-40">Start scanner</button>
+                                <button id="resetButton" class="btn btn-warning m-2 w-40">Reset scanner</button>
                             </div>
                            
                         </div>
