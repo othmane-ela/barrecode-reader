@@ -36,3 +36,36 @@ input::placeholder {
         width: 50% !important;
     }
 }
+
+
+/* Set modal size */
+
+.modal-dialog {
+    max-width: 60%;
+    background-color: #fff;
+    color: #123f92;
+    font-style: italic;
+}
+
+
+/* Center modal horizontally */
+
+.modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    min-height: calc(100% - 3.5rem);
+}
+
+
+/* Center modal vertically */
+
+.modal-content {
+    margin: auto;
+}
+
+
+/* Add padding to modal body */
+
+.modal-body {
+    padding: 1rem;
+}
